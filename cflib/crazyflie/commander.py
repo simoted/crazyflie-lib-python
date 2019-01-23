@@ -134,11 +134,21 @@ class Commander():
         Control mode where the position is sent as absolute x,y,z coordinate in
         meter and the yaw is the absolute orientation.
 
-        x and y are in m
-        yaw is in degrees
+        x and y are in m/s
+        yaw is in degrees/s
         """
         pk = CRTPPacket()
         pk.port = CRTPPort.COMMANDER_GENERIC
         pk.data = struct.pack('<Bffff', TYPE_POSITION,
                               x, y, z, yaw)
         self._cf.send_packet(pk)
+        
+    def send_angular_velocity_setpoint(self, rollrate, pitchrate, yawrate, thrust):
+        """
+        -
+        """
+        pk = CRTPPacket()
+        pk.port = CRTPPort.COMMANDER_GENERIC
+        pk.data = struct.pack('<BfffH', 8, rollrate, pitchrate, yawrate, thrust)
+        self._cf.send_packet(pk)
+
